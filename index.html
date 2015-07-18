@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+    <script src="./SelfOrganizer.js"></script>
+    <script src="./enchant.js"></script>
+    <script src="./Rect.enchant.js"></script>
+    <script>
+    var WIDTH = 20;
+    var HEIGHT = 20;
+    var RECTSIZE = 10;
+    window.onload = function(){
+        var core = new enchant.Core(500,500);
+        core.onload = function(){
+            var so = new SelfOrganizer(WIDTH, HEIGHT, RECTSIZE);
+            so.init();
+            var latis = new Latis(500, 500, WIDTH, HEIGHT);
+            core.rootScene.addChild(latis);
+            //so‚Ìmap‚ðview‚É‘S‚Ä”½‰f
+             drawUpdate = function(){
+                 latis.clear();
+                for(var i=0;i<so.wlen;i++){
+                    for(var j=0;j<so.hlen;j++){
+                        var r = so.map[i][j].r;
+                        var g = so.map[i][j].g;
+                        var b = so.map[i][j].b;
+                        latis.setCellColor(i, j, r, g, b);
+                    }
+                }
+            };
+            //so“à‚Ìó‘Ô‚ðXV
+             stateUpdate = function(){
+                so.evolution();
+                
+            };
+            core.rootScene.addEventListener("enterframe", function(){
+                stateUpdate();
+                drawUpdate();
+            });
+            drawUpdate();
+        };
+        core.start();
+    };
+
+    
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
